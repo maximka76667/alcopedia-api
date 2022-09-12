@@ -6,6 +6,11 @@ const drinkSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
+  code: {
+    type: String,
+    required: true,
+    unique: true
+  },
   ingredients: {
     type: {},
     required: true,

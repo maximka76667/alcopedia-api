@@ -9,7 +9,7 @@ const ALLOWED_CORS = [
   'http://localhost:5000',
   'https://maximka76667.github.io',
   'maximka76667.github.io',
-  'http://192.168.1.65:3000'
+  'http://192.168.1.46:3000'
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS';
 const PORT = 3001;

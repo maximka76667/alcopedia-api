@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { URL } = require("url");
 
 const drinkSchema = new mongoose.Schema({
   name: {
@@ -10,6 +11,20 @@ const drinkSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true
+  },
+  img: {
+    type: String,
+    required: true,
+    validate: {
+      validator: (link) => {
+        try {
+          new URL(link)
+          return true;
+        } catch (error) {
+          return false;
+        }
+      },
+    },
   },
   ingredients: {
     type: {},

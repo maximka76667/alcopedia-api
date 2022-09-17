@@ -3,7 +3,6 @@ const express = require('express')
 const app = express() // notice that the app instance is called `app`, this is very important.
 
 const mongoose = require('mongoose');
-const cors = require('cors');
 
 const { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT } = require("./config");
 
@@ -11,8 +10,25 @@ const connectDB = async () => {
   await mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
 };
 
+// Security
+const cookieParser = require('cookie-parser');
+const helmet = require('helmet');
+const cors = require('cors');
+const limiter = require('./middlewares/rate-limiter');
+
+// Middlewares
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const errorHandler = require('./middlewares/error-handler');
+
+app.use(requestLogger);
+
+app.use(limiter);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+app.use(helmet());
 
 app.use(
   cors({
@@ -30,6 +46,9 @@ app.use(
 );
 
 app.use("/drink", require('./routes/index'));
+
+app.use(errorLogger);
+app.use(errorHandler);
 
 connectDB();
 app.listen(PORT);

@@ -1,10 +1,12 @@
 const nodemailer = require('nodemailer');
 
+const { NODEMAILER_EMAIL, NODEMAILER_PASSWORD } = process.env;
+
 const transport = nodemailer.createTransport({
   service: 'Yandex',
   auth: {
-    user: process.env.NODEMAILER_EMAIL,
-    pass: process.env.NODEMAILER_PASSWORD,
+    user: NODEMAILER_EMAIL,
+    pass: NODEMAILER_PASSWORD,
   },
 });
 const URL = 'http://localhost:3001/login/';
@@ -20,7 +22,7 @@ const sendMagicLink = async (email, link, which) => {
 
   const mailOptions = {
     to: email,
-    from: process.env.NODEMAILER_EMAIL,
+    from: NODEMAILER_EMAIL,
     subject: subj,
     html: body,
   };

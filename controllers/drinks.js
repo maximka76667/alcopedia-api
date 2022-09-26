@@ -19,11 +19,11 @@ const addDrink = (req, res, next) => {
 const deleteDrink = (req, res, next) => {
   Drink.deleteOne({ name: req.body.name })
     .then((drink) => res.send(drink))
-    .catch((err) => next(console.log(err)))
-}
+    .catch((err) => next(console.log(err)));
+};
 
 module.exports = {
   getDrinks,
   addDrink,
-  deleteDrink
-}
+  deleteDrink,
+};

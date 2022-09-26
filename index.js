@@ -1,10 +1,13 @@
 require('dotenv').config();
-const express = require('express')
-const app = express() // notice that the app instance is called `app`, this is very important.
+const express = require('express');
+
+const app = express(); // notice that the app instance is called `app`, this is very important.
 
 const mongoose = require('mongoose');
 
-const { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT } = require("./config");
+const {
+  ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT,
+} = require('./config');
 
 const connectDB = async () => {
   await mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -45,7 +48,7 @@ app.use(
   }),
 );
 
-app.use("/drink", require('./routes/index'));
+app.use('/drink', require('./routes/index'));
 
 app.use(errorLogger);
 app.use(errorHandler);

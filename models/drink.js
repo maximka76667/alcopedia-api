@@ -1,16 +1,16 @@
 const mongoose = require('mongoose');
-const { URL } = require("url");
+const { URL } = require('url');
 
 const drinkSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   code: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   img: {
     type: String,
@@ -18,7 +18,7 @@ const drinkSchema = new mongoose.Schema({
     validate: {
       validator: (link) => {
         try {
-          new URL(link)
+          new URL(link);
           return true;
         } catch (error) {
           return false;

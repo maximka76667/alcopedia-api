@@ -5,10 +5,12 @@ const ALLOWED_CORS = [
   'http://localhost:3001',
   'http://localhost:5000',
   'https://maximka76667.github.io',
-  'http://192.168.1.46:3000'
+  'http://192.168.1.46:3000',
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS';
 const PORT = 3001;
-const DB_URL = `mongodb+srv://${LOGIN}:${PASSWORD}@cluster0.h9ihfyc.mongodb.net/?retryWrites=true&w=majority`
+const DB_URL = `mongodb+srv://${LOGIN}:${PASSWORD}@cluster0.h9ihfyc.mongodb.net/?retryWrites=true&w=majority`;
 
-module.exports = { ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT };
+module.exports = {
+  ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT,
+};

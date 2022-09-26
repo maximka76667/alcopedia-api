@@ -26,7 +26,7 @@ const sendMagicLink = async (email, link, which) => {
   };
 
   try {
-    const response = await transport.sendMail(mailOptions);
+    await transport.sendMail(mailOptions);
     console.log('Link sent 📬');
     return ({ ok: true, message: 'email sent' });
   } catch (err) {

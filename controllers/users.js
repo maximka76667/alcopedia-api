@@ -47,7 +47,7 @@ const login = async (req, res) => {
 
     if (!user) {
       await register(email);
-      res.send({ ok: true, message: 'Your account has been created, click the link in email to sign in 👻' });
+      return res.send({ ok: true, message: 'Your account has been created, click the link in email to sign in 👻' });
     }
 
     if (user.MagicLink === magicLink && !user.isMagicLinkExpired) {
@@ -62,7 +62,7 @@ const login = async (req, res) => {
     }
     return res.json({ ok: false, message: 'Magic link expired or incorrect 🤔' });
   } catch (err) {
-    res.json({ ok: false, err });
+    return res.json({ ok: false, err });
   }
 };
 

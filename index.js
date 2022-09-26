@@ -5,23 +5,24 @@ const app = express(); // notice that the app instance is called `app`, this is 
 
 const mongoose = require('mongoose');
 
-const {
-  ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT,
-} = require('./config');
-
-const connectDB = async () => {
-  await mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
-};
-
 // Security
 const cookieParser = require('cookie-parser');
 const helmet = require('helmet');
 const cors = require('cors');
 const limiter = require('./middlewares/rate-limiter');
 
+// Config
+const {
+  ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT,
+} = require('./config');
+
 // Middlewares
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error-handler');
+
+const connectDB = async () => {
+  await mongoose.connect(DB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+};
 
 app.use(requestLogger);
 
@@ -48,7 +49,7 @@ app.use(
   }),
 );
 
-app.use('/drink', require('./routes/index'));
+app.use('/', require('./routes/index'));
 
 app.use(errorLogger);
 app.use(errorHandler);

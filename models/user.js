@@ -31,5 +31,5 @@ const UserSchema = new Schema(
   { strictQuery: false },
 );
 
-const Users = model('Users', UserSchema);
-module.exports = Users;
+const User = model('User', UserSchema);
+module.exports = User;

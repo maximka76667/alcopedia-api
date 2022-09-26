@@ -1,11 +1,6 @@
 const router = require('express').Router();
-// const { celebrate, Joi } = require('celebrate');
-const {
-  getDrinks, addDrink, deleteDrink,
-} = require('../controllers/drinks');
 
-router.get('/', getDrinks);
-router.post('/', addDrink);
-router.delete('/', deleteDrink);
+router.use('/drink', require('./drinks'));
+router.use('/user', require('./users'));
 
 module.exports = router;

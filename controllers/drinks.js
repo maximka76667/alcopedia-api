@@ -1,6 +1,8 @@
 const Drink = require('../models/drink');
 // const { handleErrors } = require('../errors');
-// const { errorMessages: { forbiddenErrorMessage, notFoundErrorMessages: { cards: cardsErrorMessage } } } = require('../errors/error-config');
+// const { errorMessages: {
+// forbiddenErrorMessage, notFoundErrorMessages: { cards: cardsErrorMessage } } } =
+// require('../errors/error-config');
 
 const getDrinks = (req, res, next) => {
   Drink.find()

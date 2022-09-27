@@ -1,5 +1,3 @@
-const { LOGIN, PASSWORD } = process.env;
-
 const ALLOWED_CORS = [
   'http://localhost:3000',
   'http://localhost:3001',
@@ -8,9 +6,8 @@ const ALLOWED_CORS = [
   'http://192.168.1.46:3000',
 ];
 const DEFAULT_ALLOWED_METHODS = 'GET, HEAD, PUT, PATCH, POST, DELETE, OPTIONS';
-const PORT = 3001;
-const DB_URL = `mongodb+srv://${LOGIN}:${PASSWORD}@cluster0.h9ihfyc.mongodb.net/?retryWrites=true&w=majority`;
 
 module.exports = {
-  ALLOWED_CORS, DEFAULT_ALLOWED_METHODS, DB_URL, PORT,
+  ALLOWED_CORS,
+  DEFAULT_ALLOWED_METHODS,
 };

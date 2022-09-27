@@ -4,16 +4,32 @@ const validator = require('validator');
 const { JWT_SECRET } = process.env;
 const { v4: uuidv4 } = require('uuid');
 const User = require('../models/user');
-const { sendMagicLink } = require('./emails');
+const { FRONT_URL } = require('../config');
+const { generateMailOptions, transport } = require('../services/mail');
+const mailMessages = require('../config/mail');
+
+const sendMagicLink = async (email, linkId, type) => {
+  const link = `${FRONT_URL}/${email}/${linkId}`;
+
+  const mailOptions = generateMailOptions(email, link, type);
+
+  try {
+    await transport.sendMail(mailOptions);
+    console.log(mailMessages.sent);
+    return ({ ok: true, message: mailMessages.sent });
+  } catch (err) {
+    console.log(mailMessages.error, err);
+    return ({ ok: false, message: err });
+  }
+};
 
 const register = async (email) => {
   try {
-    const newUser = {
+    const user = await User.create({
       email,
       magicLink: uuidv4(),
-      // ever activated if not remove later with cron
-    };
-    const user = await User.create(newUser);
+    });
+
     // send magic link to email
     sendMagicLink(email, user.magicLink, 'signup');
     return ({ ok: true, message: 'User created' });
@@ -43,7 +59,7 @@ const login = async (req, res) => {
           { returnDocument: 'after' },
         );
           // send email with magic link
-        sendMagicLink(email, userWithoutLink.magicLink);
+        sendMagicLink(email, userWithoutLink.magicLink, 'signin');
         return res.send({ ok: true, message: 'Hit the link in email to sign in' });
       } catch (err) {
         console.log(err);
@@ -68,7 +84,6 @@ const login = async (req, res) => {
 };
 
 const verifyToken = (req, res) => {
-  console.log(req.headers.authorization);
   const token = req.headers.authorization;
   jwt.verify(token, JWT_SECRET, (err, succ) => {
     if (err) {

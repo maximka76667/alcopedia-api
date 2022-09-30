@@ -93,4 +93,16 @@ const verifyToken = (req, res) => {
   });
 };
 
-module.exports = { login, verifyToken };
+function getUser(req, res) {
+  const userId = req.user._id;
+
+  if (!userId) {
+    return res.send({ message: 'Email is not defined' });
+  }
+
+  return User.findById(userId)
+    .then((user) => res.send({ user }))
+    .catch((err) => console.log(err));
+}
+
+module.exports = { login, verifyToken, getUser };

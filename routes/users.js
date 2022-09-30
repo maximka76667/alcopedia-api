@@ -1,7 +1,6 @@
 const router = require('express').Router();
-const { login, verifyToken } = require('../controllers/users');
+const { getUser } = require('../controllers/users');
 
-router.post('/login', login);
-router.post('/verify', verifyToken);
+router.get('/me', getUser);
 
 module.exports = router;

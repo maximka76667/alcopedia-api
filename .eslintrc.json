@@ -28,6 +28,7 @@
         ],
         "no-multi-spaces": [
             "error"
-        ]
+        ],
+        "no-underscore-dangle": "off"
     }
 }

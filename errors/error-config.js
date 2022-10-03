@@ -5,24 +5,23 @@ const NOT_FOUND_ERROR_CODE = 404;
 const CONFLICT_ERROR_CODE = 409;
 const DEFAULT_ERROR_CODE = 500;
 
-// Translate messages to english
 const errorMessages = {
   validationErrorMessage: {
-    default: 'Переданы некорректные данные.',
-    link: 'Ошибка валидации ссылки.',
-    email: 'Ошибка валидации почтового адреса.',
+    default: 'Incorrect data',
+    required: 'Email is required',
+    link: 'Invalid link',
+    email: 'Provided invalid email',
   },
-  unauthorizedErrorMessage: 'Необходима авторизация.',
-  incorrectCredentialsErrorMessage: 'Неправильная почта или пароль.',
-  forbiddenErrorMessage: 'Отказано в доступе.',
+  unauthorizedErrorMessage: 'Authorization is required',
+  incorrectCredentialsErrorMessage: 'Incorrect email or password',
+  forbiddenErrorMessage: 'Forbidden in access',
   notFoundErrorMessages: {
-    cards: 'Карточка с указанным _id не найдена.',
-    users: 'Пользователь по указанному _id не найден.',
-    routes: 'Запрашиваемый маршрут не найден.',
+    users: 'User not found',
+    routes: 'Location not found',
   },
-  castErrorMessage: 'Невалидный id.',
-  conflictErrorMessage: 'Почтовый адрес уже используется.',
-  defaultErrorMessage: 'На сервере произошла ошибка.',
+  castErrorMessage: 'Invalid id',
+  conflictErrorMessage: 'User with email already exist',
+  defaultErrorMessage: 'Something went wrong',
 };
 
 module.exports = {

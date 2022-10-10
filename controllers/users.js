@@ -61,7 +61,11 @@ const login = async (req, res, next) => {
           { returnDocument: 'after' },
         );
 
-        sendMagicLink(email, userWithoutLink.magicLink, 'signin');
+        try {
+          sendMagicLink(email, userWithoutLink.magicLink, 'signin');
+        } catch (err) {
+          throw new Error(err);
+        }
         return res.send({ message: 'Hit the link in email to sign in' });
       } catch (err) {
         next(handleErrors(err));

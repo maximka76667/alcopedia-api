@@ -7,8 +7,7 @@ const User = require('../models/user');
 const { FRONT_URL } = require('../config');
 const { generateMailOptions, transport } = require('../services/mail');
 const mailMessages = require('../config/mail');
-const handleErrors = require('../errors/handle-errors');
-const BadRequestError = require('../errors/bad-request-error');
+const { handleErrors, BadRequestError, NotFoundError } = require('../errors');
 const { errorMessages } = require('../errors/error-config');
 
 const sendMagicLink = async (email, linkId, type) => {
@@ -19,10 +18,8 @@ const sendMagicLink = async (email, linkId, type) => {
   try {
     await transport.sendMail(mailOptions);
     console.log(mailMessages.sent);
-    return ({ ok: true, message: mailMessages.sent });
   } catch (err) {
-    console.log(mailMessages.error, err);
-    return ({ ok: false, message: err });
+    throw new Error(err);
   }
 };
 
@@ -33,9 +30,7 @@ const register = async (email) => {
       magicLink: uuidv4(),
     });
 
-    // send magic link to email
     sendMagicLink(email, user.magicLink, 'signup');
-    return ({ ok: true, message: 'User created' });
   } catch (err) {
     throw new Error(err);
   }
@@ -65,7 +60,7 @@ const login = async (req, res, next) => {
           { magicLink: uuidv4(), isMagicLinkExpired: false },
           { returnDocument: 'after' },
         );
-          // send email with magic link
+
         sendMagicLink(email, userWithoutLink.magicLink, 'signin');
         return res.send({ message: 'Hit the link in email to sign in' });
       } catch (err) {
@@ -90,22 +85,16 @@ const login = async (req, res, next) => {
   }
 };
 
-const verifyToken = (req, res) => {
-  const token = req.headers.authorization;
-  jwt.verify(token, JWT_SECRET, (err, succ) => {
-    if (err) {
-      throw new Error(err);
-    }
-    return res.json({ ok: true, succ });
-  });
-};
-
-function getUser(req, res) {
+function getUser(req, res, next) {
   const userId = req.user._id;
 
   return User.findById(userId)
-    .then((user) => res.send({ user }))
-    .catch((err) => console.log(err));
+    .then((user) => {
+      if (!user) throw new NotFoundError();
+      res.send({ user });
+    })
+
+    .catch((err) => next(handleErrors(err)));
 }
 
-module.exports = { login, verifyToken, getUser };
+module.exports = { login, getUser };

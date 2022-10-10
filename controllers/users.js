@@ -37,7 +37,7 @@ const register = async (email) => {
     sendMagicLink(email, user.magicLink, 'signup');
     return ({ ok: true, message: 'User created' });
   } catch (err) {
-    throw new Error();
+    throw new Error(err);
   }
 };
 
@@ -94,7 +94,7 @@ const verifyToken = (req, res) => {
   const token = req.headers.authorization;
   jwt.verify(token, JWT_SECRET, (err, succ) => {
     if (err) {
-      return res.json({ ok: false, message: 'something went wrong' });
+      throw new Error(err);
     }
     return res.json({ ok: true, succ });
   });
